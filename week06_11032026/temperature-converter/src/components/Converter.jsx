@@ -23,6 +23,7 @@ function Converter() {
         <label>Celsius</label>
         <input
           type="number"
+          placeholder="Enter Celsius"
           value={celsius}
           onChange={(e) => setCelsius(e.target.value)}
         />
@@ -35,6 +36,7 @@ function Converter() {
         <label>Fahrenheit</label>
         <input
           type="number"
+          placeholder="Enter Fahrenheit"
           value={fahrenheit}
           onChange={(e) => setFahrenheit(e.target.value)}
         />
