@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="studentApp">
+<head>
+  <meta charset="UTF-8">
+  <title>Student Record - AngularJS</title>
+
+  <!-- AngularJS CDN -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+
+  <style>
+    body {
+      font-family: Arial;
+      background: #f4f4f4;
+      text-align: center;
+    }
+
+    .container {
+      width: 400px;
+      margin: 30px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px gray;
+    }
+
+    input {
+      width: 90%;
+      padding: 8px;
+      margin: 8px 0;
+    }
+
+    button {
+      padding: 8px 15px;
+      margin-top: 10px;
+      cursor: pointer;
+      background: #007bff;
+      color: white;
+      border: none;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    .error {
+      color: red;
+      font-size: 12px;
+    }
+
+    .card {
+      background: #fff;
+      margin: 10px auto;
+      padding: 10px;
+      width: 350px;
+      border-radius: 8px;
+      box-shadow: 0 0 5px gray;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container" ng-controller="studentController">
+
+  <h2>Student Record</h2>
+
+  <!-- FORM -->
+  <form name="studentForm" novalidate>
+
+    <!-- Name -->
+    <input type="text" name="name" ng-model="student.name" placeholder="Enter Name" required>
+    <div class="error" ng-show="studentForm.name.$touched && studentForm.name.$invalid">
+      Name is required
+    </div>
+
+    <!-- Email -->
+    <input type="email" name="email" ng-model="student.email" placeholder="Enter Email" required>
+    <div class="error" ng-show="studentForm.email.$touched && studentForm.email.$invalid">
+      Valid email required
+    </div>
+
+    <!-- Phone -->
+    <input type="text" name="phone" ng-model="student.phone" placeholder="Enter Phone"
+           ng-pattern="/^\d{10}$/" required>
+    <div class="error" ng-show="studentForm.phone.$touched && studentForm.phone.$invalid">
+      Enter 10 digit phone
+    </div>
+
+    <!-- Age -->
+    <input type="number" name="age" ng-model="student.age" placeholder="Enter Age"
+           min="18" required>
+    <div class="error" ng-show="studentForm.age.$touched && studentForm.age.$invalid">
+      Age must be 18+
+    </div>
+
+    <!-- EVENT: Add Student -->
+    <button ng-click="addStudent()" ng-disabled="studentForm.$invalid">
+      Add Student
+    </button>
+
+  </form>
+
+</div>
+
+<!-- DISPLAY STUDENTS -->
+<div ng-controller="studentController">
+  <h2>Student List</h2>
+
+  <div class="card" ng-repeat="s in students track by $index">
+    <p><b>Name:</b> {{ s.name }}</p>
+    <p><b>Email:</b> {{ s.email }}</p>
+    <p><b>Phone:</b> {{ s.phone }}</p>
+    <p><b>Age:</b> {{ s.age }}</p>
+
+    <!-- EVENT: Delete -->
+    <button ng-click="deleteStudent($index)">Delete</button>
+  </div>
+</div>
+
+<script>
+  var app = angular.module("studentApp", []);
+
+  app.controller("studentController", function($scope) {
+
+    $scope.students = [];
+
+    $scope.student = {};
+
+    // EVENT: Add student
+    $scope.addStudent = function() {
+      $scope.students.push(angular.copy($scope.student));
+      $scope.student = {}; // clear form
+    };
+
+    // EVENT: Delete student
+    $scope.deleteStudent = function(index) {
+      $scope.students.splice(index, 1);
+    };
+
+  });
+</script>
+
+</body>
+</html>
